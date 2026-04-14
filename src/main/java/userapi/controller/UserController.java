@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import userapi.entity.User;
 import userapi.repository.UserRepository;
 
@@ -22,7 +23,7 @@ public class UserController {
 	}
 
 	@PostMapping
-	public User criarUsuario(@RequestBody User user) {
+	public User criarUsuario(@Valid @RequestBody User user) {
 		return userRepository.save(user);
 	}
 
@@ -34,7 +35,7 @@ public class UserController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<User> atualizarUsuario(@PathVariable Long id, @RequestBody User userAtualizado) {
+	public ResponseEntity<User> atualizarUsuario(@PathVariable Long id, @Valid @RequestBody User userAtualizado) {
 		return userRepository.findById(id)
 				.map(user -> {
 					user.setNome(userAtualizado.getNome());
