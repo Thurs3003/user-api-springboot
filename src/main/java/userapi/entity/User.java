@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Column;
 
 @Entity
 @Table(name = "users")
@@ -23,6 +24,7 @@ public class User {
 	
 	@Email(message = "Email inválido.")
 	@NotBlank(message = "O email é obrigatório")
+	@Column(unique = true)
 	private String email;
 	
 	@NotNull(message = "A idade é obrigatória")

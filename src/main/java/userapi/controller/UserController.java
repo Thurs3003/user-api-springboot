@@ -23,8 +23,11 @@ public class UserController {
 	}
 
 	@PostMapping
-	public User criarUsuario(@Valid @RequestBody User user) {
-		return userRepository.save(user);
+	public ResponseEntity<?> criarUsuario(@Valid @RequestBody User user) {
+		if (userRepository.existsByEmail(user.getEmail())) {
+			return ResponseEntity.badRequest().body("Este E-mail já está sendo utilizado por outro usuário.");
+		}
+		return ResponseEntity.ok(userRepository.save(user));
 	}
 
 	@GetMapping("/{id}")
@@ -35,12 +38,23 @@ public class UserController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<User> atualizarUsuario(@PathVariable Long id, @Valid @RequestBody User userAtualizado) {
+	public ResponseEntity<?> atualizarUsuario(@PathVariable Long id, @Valid @RequestBody User userAtualizado) {
 		return userRepository.findById(id)
 				.map(user -> {
+					var usuarioComMesmoEmail = userRepository.findByEmail(userAtualizado.getEmail());
+					
+					if (usuarioComMesmoEmail.isPresent()) {
+					    User outroUsuario = usuarioComMesmoEmail.get();
+
+					    if (outroUsuario.getId() != id) {
+					        return ResponseEntity.badRequest().body("Já existe um usuário com esse email.");
+					    }
+					}
+					
 					user.setNome(userAtualizado.getNome());
 					user.setEmail(userAtualizado.getEmail());
 					user.setIdade(userAtualizado.getIdade());
+					
 					return ResponseEntity.ok(userRepository.save(user));
 					})
 				.orElse(ResponseEntity.notFound().build());
