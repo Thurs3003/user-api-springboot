@@ -60,3 +60,13 @@ userapi
 | POST   | /users      | Cria usuário      |
 | PUT    | /users/{id} | Atualiza usuário  |
 | DELETE | /users/{id} | Remove usuário    |
+```
+
+## 🧪 Exemplo de requisição
+
+```json
+{
+  "nome": "Arthur",
+  "email": "arthur@email.com",
+  "idade": 20
+}
