@@ -70,3 +70,13 @@ userapi
   "email": "arthur@email.com",
   "idade": 20
 }
+
+```
+
+## 🌐 Deploy
+
+https://user-api-springboot-production.up.railway.app
+
+## 📘 Swagger
+
+https://user-api-springboot-production.up.railway.app/swagger-ui/index.html
